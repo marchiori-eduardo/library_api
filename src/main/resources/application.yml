@@ -1,0 +1,9 @@
+spring:
+    datasource:
+        url: jdbc:postgresql://localhost:5433/library
+        username: admin
+        password: senhaSuperSegura123
+    jpa:
+        hibernate:
+            ddl-auto: update
+        show-sql: true

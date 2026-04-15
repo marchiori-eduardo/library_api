@@ -1,42 +1,43 @@
 services:
   db:
     image: postgres:16.3
-    container_name: pg_portfolio
+    container_name: librarydb
     restart: always
     environment:
-      - POSTGRES_USER=admin
-      - POSTGRES_PASSWORD=admin123
-      - POSTGRES_DB=libraryapi
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASS}
+      - POSTGRES_DB=${DB_NAME}
     ports:
-      - "5432:5432"
+      - "5433:5432"
     volumes:
-      - pgdata_portfolio:/var/lib/postgresql/data
+      - pgdata_librarydb:/var/lib/postgresql/data
     networks:
-      - portfolio-network
+      - library-network
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres -d portfolio_db"]
+      # garantir que o banco está pronto antes do pgAdmin subir
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"]
       interval: 5s
       timeout: 5s
       retries: 5
 
   pgadmin:
     image: dpage/pgadmin4
-    container_name: pgadmin_portfolio
+    container_name: pgadmin_librarydb
     restart: always
     environment:
-      - PGADMIN_DEFAULT_EMAIL=admin@admin.com
-      - PGADMIN_DEFAULT_PASSWORD=admin
+      - PGADMIN_DEFAULT_EMAIL=${PGADMIN_EMAIL}
+      - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_PASS}
     ports:
       - "8080:80"
     networks:
-      - portfolio-network
+      - library-network
     depends_on:
       db:
         condition: service_healthy
 
 networks:
-  portfolio-network:
+  library-network:
     driver: bridge
 
 volumes:
-  pgdata_portfolio:
+  pgdata_librarydb:

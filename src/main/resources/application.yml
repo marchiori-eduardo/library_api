@@ -5,7 +5,7 @@ spring:
         url: jdbc:postgresql://localhost:5433/library
         username: admin
         password: senhaSuperSegura123
-        jdbcDriver: org.postgresql.Driver
+        driver-class-name: org.postgresql.Driver
     jpa:
         hibernate:
             ddl-auto: update

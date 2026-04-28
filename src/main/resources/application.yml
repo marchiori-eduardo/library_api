@@ -8,5 +8,5 @@ spring:
         driver-class-name: org.postgresql.Driver
     jpa:
         hibernate:
-            ddl-auto: update
+            ddl-auto: update #persistencia de dados na aplicacao
         show-sql: true
